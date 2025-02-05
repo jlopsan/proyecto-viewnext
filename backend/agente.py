@@ -9,11 +9,8 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.agents import Tool, initialize_agent
 from langchain.agents.agent_types import AgentType
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../elasticsearch'))
-
-from Consulta_RAG import search 
-from correo import enviar_correo
+from .correo import enviar_correo
+from Elasticsearch.Consulta_RAG import search 
 
 load_dotenv()
 
