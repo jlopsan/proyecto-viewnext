@@ -70,8 +70,7 @@ export default function ChatInterface() {
         </div>
 
         <div className="input-container">
-          <input
-            type="text"
+          <textarea
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={handleKeyDown}

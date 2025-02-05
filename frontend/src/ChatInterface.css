@@ -38,20 +38,23 @@ body {
 .title {
   font-size: 1.8rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #ffffff;
+  position: relative;
+  justify-self: center;
 }
 
 .chat-box {
-  width: 100%;
+  width: 800px;
   border-radius: 12px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
-  max-height: 70vh; /* Limita la altura del chat */
+  max-height: 75vh; /* Limita la altura del chat */
   position: relative;
+  scroll-behavior: smooth; /* Desplazamiento suave */
 }
 
 .messages-area {
@@ -62,7 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  scroll-behavior: smooth; /* Desplazamiento suave */
+  
 }
 
 /* Estilos para diferenciar mensajes del usuario y del asistente */
@@ -118,6 +121,7 @@ body {
   display: flex;
   align-items: center;
   margin-top: 10px; /* Separación del área de mensajes */
+  width: 100%;
 }
 .input-field {
   width: 100%;
@@ -126,8 +130,14 @@ body {
   border: none;
   background-color: #3d3c41;
   color: white;
+  font-family: 'Arial', sans-serif;
   font-size: 1rem;
   outline: none;
+  min-height: 50px;  /* Altura mínima para mostrar múltiples líneas */
+  resize: none;  /* Evita que el usuario cambie el tamaño del campo */
+  overflow-y: auto;  /* Permite el scroll vertical si el contenido es demasiado largo */
+  white-space: pre-wrap;  /* Muestra los saltos de línea */
+  word-wrap: break-word;  /* Permite que las palabras largas se rompan */
 }
 
 .input-field::placeholder {
