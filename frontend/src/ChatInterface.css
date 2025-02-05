@@ -158,6 +158,32 @@ body {
   color: #ffffff;
 }
 
+.faq-box {
+  background-color: #2b2b2f; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.faq-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.faq-list {
+  list-style-type: none; /* Quitar los puntos de las listas */
+  padding-left: 0;
+  
+}
+
+.faq-list li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+
 .footer {
   position: absolute;
   bottom: 10px;

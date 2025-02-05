@@ -5,6 +5,7 @@ export default function ChatInterface() {
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showFaq, setShowFaq] = useState(true);
 
   const handleQuery = async () => {
     if (!question.trim() || isLoading) return;
@@ -12,6 +13,9 @@ export default function ChatInterface() {
     setMessages(prev => [...prev, { text: question, isUser: true }]);
     setIsLoading(true);
     setQuestion("");
+
+    // Ocultar el recuadro de preguntas frecuentes cuando el usuario haga una consulta
+    setShowFaq(false);
 
     try {
       /*
@@ -87,6 +91,18 @@ export default function ChatInterface() {
           </button>
         </div>
       </div>
+
+      {/* Recuadro de las preguntas frecuentes */}
+      {showFaq && (
+          <div className="faq-box">
+            <h2 className="faq-title">Preguntas Frecuentes</h2>
+            <ul className="faq-list">
+              <li><strong>¿Cómo puedo acceder a los trámites?</strong></li>
+              <li><strong>¿Cuáles son los horarios de atención?</strong></li>
+              <li><strong>¿Qué documentos necesito para realizar un trámite?</strong></li>
+            </ul>
+          </div>
+        )}
 
 
       <footer className="footer">Proyecto ViewNext</footer>
