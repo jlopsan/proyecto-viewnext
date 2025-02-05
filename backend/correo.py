@@ -2,20 +2,21 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
+from dotenv import load_dotenv
 
-def resumir_consulta(consulta, max_palabras=6):
-    """Genera un resumen corto de la consulta."""
-    palabras = consulta.split()
-    resumen = " ".join(palabras[:max_palabras]) + ("..." if len(palabras) > max_palabras else "")
-    return resumen
+load_dotenv()
 
 def enviar_correo(destinatario, consulta, respuesta):
     """Envía un correo con la consulta realizada y la respuesta obtenida."""
-    remitente = os.getenv("EMAIL_USER")
+    remitente = os.getenv("EMAIL_USER") 
     password = os.getenv("EMAIL_PASSWORD")
 
-    asunto = f"Consulta: {resumir_consulta(consulta)}"
+    if not remitente or not password:
+        return "Error: Las credenciales de correo no están configuradas."
 
+    asunto = f"Consulta: {consulta[:50]}..."  
+
+    # Crear el mensaje
     msg = MIMEMultipart()
     msg["From"] = remitente
     msg["To"] = destinatario
@@ -34,11 +35,25 @@ def enviar_correo(destinatario, consulta, respuesta):
     msg.attach(MIMEText(cuerpo, "html"))
 
     try:
-        servidor = smtplib.SMTP("smtp-mail.outlook.com", 587)
+        servidor = smtplib.SMTP("smtp.gmail.com", 587)
+        servidor.ehlo()
         servidor.starttls()
+        servidor.ehlo()
         servidor.login(remitente, password)
         servidor.sendmail(remitente, destinatario, msg.as_string())
         servidor.quit()
         return "Correo enviado correctamente."
-    except Exception as e:
+    except smtplib.SMTPAuthenticationError as e:
+        return f"Error de autenticación: {e}"
+    except smtplib.SMTPException as e:
         return f"Error al enviar el correo: {e}"
+    except Exception as e:
+        return f"Error inesperado: {e}"
+
+# if __name__ == "__main__":
+#     destinatario = "raulcasta_23@hotmail.com"
+#     consulta = "Requisitos para obtener una beca en estudios de FP"
+#     respuesta = "Los requisitos incluyen estar matriculado en un ciclo formativo y cumplir con los umbrales de renta."
+
+#     resultado = enviar_correo(destinatario, consulta, respuesta)
+#     print(resultado)
