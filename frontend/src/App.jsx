@@ -8,8 +8,10 @@ export default function ChatInterface() {
   const [showFaq, setShowFaq] = useState(true);
 
   const handleQuery = async () => {
+    // Si la pregunta está vacía o si el sistema está cargando, no hace nada
     if (!question.trim() || isLoading) return;
 
+    // Actualizar el estado de los mensajes para agregar la pregunta del usuario
     setMessages(prev => [...prev, { text: question, isUser: true }]);
     setIsLoading(true);
     setQuestion("");
@@ -19,15 +21,17 @@ export default function ChatInterface() {
 
     try {
       /*
+      // Enviar la pregunta al servidor y esperar la respuesta
       const res = await fetch("http://localhost:8000/query", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", // El cuerpo de la solicitud está en formato JSON
         },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question }), // Enviar la pregunta del usuario en el cuerpo de la solicitud
       });
       */
 
+      // Procesamos la respuesta del servidor
       //const data = await res.json();
 
       // Por ahora se simula la respuesta del servidor
@@ -103,10 +107,9 @@ export default function ChatInterface() {
             </ul>
           </div>
         )}
-
-
-      <footer className="footer">Proyecto ViewNext</footer>
+      
     </div>
+    <footer className="footer">Proyecto ViewNext</footer>
     </div>
   );
 }

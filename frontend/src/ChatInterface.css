@@ -14,7 +14,9 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  overflow-y: hidden; /* Evita el scroll general del cuerpo */}
+  overflow-y: hidden; /* Evita el scroll general del cuerpo */
+  width: 100%;
+}
 
 .chat-container {
   display: flex;
@@ -24,7 +26,8 @@ body {
   width: 500px;
   max-width: 500px; /* Limita el ancho máximo */
   padding: 20px;
-  
+  flex-grow: 1;
+  height: 100%;
 }
 
 .header {
@@ -185,9 +188,9 @@ body {
 
 
 .footer {
-  position: absolute;
-  bottom: 10px;
   font-size: 0.9rem;
   color: #b0b0b0;
-  left: 650px;
+  width: 100%;
+  text-align: center;  /* Centra el texto */
+  padding-top: 20px;  /* Espaciado superior */
 }
