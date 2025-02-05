@@ -45,11 +45,13 @@ export default function ChatInterface() {
   };
 
   return (
+    
     <div className="chat-container">
       <header className="header">Asistente para Trámites Administrativos</header>
-      <div className="chat-box">
+      <div className="chat-interface">
       {messages.length === 0 && <h1 className="title">¿Cómo puedo ayudarte?</h1>}
 
+      <div className="chat-box">
         <div className="messages-area">
           {messages.map((message, index) => (
             <div 
@@ -86,7 +88,10 @@ export default function ChatInterface() {
           </button>
         </div>
       </div>
+
+
       <footer className="footer">Proyecto ViewNext</footer>
+    </div>
     </div>
   );
 }

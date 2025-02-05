@@ -14,16 +14,17 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-}
+  overflow-y: hidden; /* Evita el scroll general del cuerpo */}
 
 .chat-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
-  width: 100%;
+  width: 500px;
+  max-width: 500px; /* Limita el ancho máximo */
   padding: 20px;
+  
 }
 
 .header {
@@ -34,16 +35,6 @@ body {
   color: #b0b0b0;
 }
 
-.chat-box {
-  width: 100%;
-  max-width: 600px;
-  background-color: #2f2e31; /* Color exacto de la imagen */
-  border-radius: 12px;
-  padding: 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
 .title {
   font-size: 1.8rem;
   font-weight: 600;
@@ -51,12 +42,83 @@ body {
   color: #ffffff;
 }
 
+.chat-box {
+  width: 100%;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+  max-height: 70vh; /* Limita la altura del chat */
+  position: relative;
+}
+
+.messages-area {
+  flex: 1;
+  overflow-y: auto; /* Habilita el scroll vertical */
+  max-height: 100%; /* Ocupa todo el espacio disponible */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth; /* Desplazamiento suave */
+}
+
+/* Estilos para diferenciar mensajes del usuario y del asistente */
+.user-message {
+  align-self: flex-end;
+  background-color: #4e6c88;
+  color: white;
+  padding: 10px;
+  border-radius: 10px 10px 0 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.assistant-message {
+  align-self: flex-start;
+  background-color: #3d3c41;
+  color: #cfd8e3;
+  padding: 10px;
+  border-radius: 10px 10px 10px 0;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+/* Indicador de carga */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b0b0b0;
+  font-size: 0.9rem;
+}
+
+.loading-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #b0b0b0;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .input-container {
   position: relative;
   display: flex;
   align-items: center;
+  margin-top: 10px; /* Separación del área de mensajes */
 }
-
 .input-field {
   width: 100%;
   padding: 15px;
@@ -73,35 +135,23 @@ body {
 }
 
 .send-button {
-  position: absolute;
-  right: 10px;
+  position: relative;
   background-color: transparent;
   border: none;
   color: #b0b0b0;
   font-size: 1.5rem;
   cursor: pointer;
+  margin-left: 10px; /* Separación del campo de entrada */
 }
 
 .send-button:hover {
   color: #ffffff;
 }
 
-.response-box {
-  margin-top: 20px;
-  background-color: #3d3c41;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #4e6c88;
-}
-
-.response-text {
-  color: #cfd8e3;
-  font-size: 1rem;
-}
-
 .footer {
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   font-size: 0.9rem;
   color: #b0b0b0;
+  left: 650px;
 }
