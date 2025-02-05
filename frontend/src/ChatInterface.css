@@ -1,0 +1,196 @@
+/* ChatInterface.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #1e1e21; /* Fondo general oscuro */
+  color: #ffffff; /* Texto en color blanco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow-y: hidden; /* Evita el scroll general del cuerpo */
+  width: 100%;
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 500px;
+  max-width: 500px; /* Limita el ancho máximo */
+  padding: 20px;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 0.9rem;
+  color: #b0b0b0;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ffffff;
+  position: relative;
+  justify-self: center;
+}
+
+.chat-box {
+  width: 800px;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+  max-height: 75vh; /* Limita la altura del chat */
+  position: relative;
+  scroll-behavior: smooth; /* Desplazamiento suave */
+}
+
+.messages-area {
+  flex: 1;
+  overflow-y: auto; /* Habilita el scroll vertical */
+  max-height: 100%; /* Ocupa todo el espacio disponible */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+/* Estilos para diferenciar mensajes del usuario y del asistente */
+.user-message {
+  align-self: flex-end;
+  background-color: #4e6c88;
+  color: white;
+  padding: 10px;
+  border-radius: 10px 10px 0 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.assistant-message {
+  align-self: flex-start;
+  background-color: #3d3c41;
+  color: #cfd8e3;
+  padding: 10px;
+  border-radius: 10px 10px 10px 0;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+/* Indicador de carga */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b0b0b0;
+  font-size: 0.9rem;
+}
+
+.loading-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #b0b0b0;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Separación del área de mensajes */
+  width: 100%;
+}
+.input-field {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  background-color: #3d3c41;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  min-height: 50px;  /* Altura mínima para mostrar múltiples líneas */
+  resize: none;  /* Evita que el usuario cambie el tamaño del campo */
+  overflow-y: auto;  /* Permite el scroll vertical si el contenido es demasiado largo */
+  white-space: pre-wrap;  /* Muestra los saltos de línea */
+  word-wrap: break-word;  /* Permite que las palabras largas se rompan */
+}
+
+.input-field::placeholder {
+  color: #b0b0b0;
+}
+
+.send-button {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  color: #b0b0b0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 10px; /* Separación del campo de entrada */
+}
+
+.send-button:hover {
+  color: #ffffff;
+}
+
+.faq-box {
+  background-color: #2b2b2f; /* Fondo oscuro */
+  color: #fff; /* Texto blanco */
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.faq-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.faq-list {
+  list-style-type: none; /* Quitar los puntos de las listas */
+  padding-left: 0;
+  
+}
+
+.faq-list li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+
+.footer {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+  width: 100%;
+  text-align: center;  /* Centra el texto */
+  padding-top: 20px;  /* Espaciado superior */
+}

@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from dotenv import dotenv_values
 from pymongo import MongoClient
-from routes import router as consultas_router
+from mongodb.routes import router as consultas_router
+from backend.routes import router as agente_router
 
 config = dotenv_values(".env")
 
@@ -17,3 +18,4 @@ def shutdown_db_client():
     app.mongodb_client.close()
 
 app.include_router(consultas_router, tags=["consultas"], prefix="/consulta")
+app.include_router(agente_router, tags=["agente"], prefix="/agente")

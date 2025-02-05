@@ -33,3 +33,5 @@ def enviar_correo(destinatario, asunto, cuerpo):
         return f"El correo fue enviado exitosamente a {destinatario}."
     except Exception as e:
         return f"Error al enviar el correo: {e}"
+    except Exception as e:
+        return f"Error inesperado: {e}"
