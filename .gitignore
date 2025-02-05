@@ -1,3 +1,4 @@
 .env
 /backend/venv
 /Elasticsearch/archivos
+/Elasticsearch/__pycache__
