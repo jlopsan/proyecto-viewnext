@@ -1,8 +1,8 @@
 import requests
 import os
 import re
-import fitz  # pymupdf para leer PDFs
 import numpy as np
+import fitz  # pymupdf para leer PDFs
 from config import EMBEDDING_API_URL, es, headers
 
 
@@ -170,7 +170,7 @@ if __name__ == "__main__":
     indice = "textos_prueba"  
     create_index(indice)
 
-    pdf_folder = r"C:\Users\raulc\OneDrive - UNIR\Documentos\ViewNext\MasterVN\Proyecto\Docs"  
+    pdf_folder = r"./archivos"  
     for pdf_file in os.listdir(pdf_folder):
         print(f"Indexando {pdf_file}")
         if pdf_file.endswith(".pdf"):
