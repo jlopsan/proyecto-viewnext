@@ -135,7 +135,7 @@ agent = initialize_agent(
     llm=custom_llm,
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     verbose=True,
-    handle_parsing_errors=True
+    handle_parsing_errors=False
 )
 
 def extraer_respuesta_final(texto):
@@ -153,26 +153,3 @@ def extraer_correo(query):
     patron_correo = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     coincidencias = re.findall(patron_correo, query)
     return coincidencias[0] if coincidencias else None
-
-def ejecutar_consulta(pregunta):
-    try:
-        respuesta_completa = agent.run(pregunta)
-
-        # Extraer la respuesta final
-        respuesta_limpia = extraer_respuesta_final(respuesta_completa)
-       
-        return respuesta_limpia
-    except Exception as e:
-        # Si hay un error de parsing, intentar extraer la respuesta útil del mensaje de error
-        error_str = str(e)
-        if "Final Answer:" in error_str:
-            return extraer_respuesta_final(error_str)
-        print(f"Error en la consulta: {e}")
-        return "Lo siento, ocurrió un error al procesar tu consulta."
-
-# Ejecutar el agente con una pregunta de ejemplo
-if __name__ == "__main__":
-    pregunta = "que requisitos hacen falta para obtener una beca en estudios de FP? Mándame la respuesta por correo a raulcasta23@gmail.com."
-    print("\nConsultando información...")
-    respuesta = ejecutar_consulta(pregunta)
-    print("\nRespuesta:", respuesta)
