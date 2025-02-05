@@ -83,9 +83,9 @@ def vectorizar_texto(text, max_chars=150000):
             response = requests.post(EMBEDDING_API_URL, headers=headers, json=body)
             if response.status_code == 200:
                 vectors.append(response.json()['vectors'][0])
-                print(f"✅ Segmento {i} procesado correctamente")
+                print(f"Segmento {i} procesado correctamente")
             else:
-                print(f"❌ Error en segmento {i}. Código: {response.status_code}")
+                print(f"Error en segmento {i}. Código: {response.status_code}")
                 
                 # Intentar dividir el segmento si sigue siendo muy largo
                 if len(segment) > max_chars // 2:
@@ -98,14 +98,14 @@ def vectorizar_texto(text, max_chars=150000):
                             response = requests.post(EMBEDDING_API_URL, headers=headers, json=body)
                             if response.status_code == 200:
                                 vectors.append(response.json()['vectors'][0])
-                                print(f"✅ Subsegmento procesado correctamente")
+                                print(f"Subsegmento procesado correctamente")
                 
         except Exception as e:
             print(f"Error en segmento {i}: {str(e)}")
             continue
     
     if not vectors:
-        print("❌ No se pudo vectorizar ningún segmento")
+        print(" No se pudo vectorizar ningún segmento")
         return None
     
     # Calcular el vector promedio de los segmentos
@@ -113,9 +113,7 @@ def vectorizar_texto(text, max_chars=150000):
 
 
 def limpiar_texto(texto):
-    """
-    Función auxiliar para limpiar y formatear el texto.
-    """
+    """Función auxiliar para limpiar y formatear el texto."""
     # Reemplazar múltiples espacios y saltos de línea con un solo espacio
     texto = re.sub(r'\s+', ' ', texto)
     
@@ -140,6 +138,8 @@ def extract_text_from_pdf(pdf_path):
     return text.strip()
 
 def index_pdf(pdf_path, index_name="documents"):
+    """Función que indexa un PDF en Elasticsearch."""
+
     text = extract_text_from_pdf(pdf_path)
     print(f"Longitud del texto extraído: {len(text)} caracteres")
     
@@ -154,12 +154,12 @@ def index_pdf(pdf_path, index_name="documents"):
         doc = {
             "filename": os.path.basename(pdf_path),
             "content": text,
-            "vector": embedding  # Guardamos el embedding generado por la API
+            "vector": embedding 
         }
-        es.index(index=index_name, body=doc)  # Indexamos en Elasticsearch
+        es.index(index=index_name, body=doc)  # Indexar en Elasticsearch
         print(f"✅ {pdf_path} indexado correctamente")
     else:
-        print(f"⚠️ No se pudo indexar {pdf_path}")
+        print(f"No se pudo indexar {pdf_path}")
 
 def close_connection():
     """Función para cerrar la conexión con Elasticsearch."""
@@ -177,5 +177,5 @@ if __name__ == "__main__":
             pdf_path = os.path.join(pdf_folder, pdf_file)
             index_pdf(pdf_path)
 
-    print("📄 Todos los PDFs han sido indexados en Elasticsearch 🚀")
+    print("Todos los PDFs han sido indexados en Elasticsearch")
     close_connection()

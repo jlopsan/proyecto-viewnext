@@ -10,17 +10,17 @@ def get_query_embedding(query):
     response = requests.post(EMBEDDING_API_URL, headers=headers, json=body)
 
     if response.status_code == 200:
-        return response.json().get("vectors")[0] # Suponiendo que devuelve una lista
+        return response.json().get("vectors")[0]
     else:
-        print(f"❌ Error al obtener embedding: {response.text}")
+        print(f"Error al obtener embedding: {response.text}")
         return None
 
-def search(query, index_name="documents", top_k=5):
+def search(query, index_name="documents", top_k=3):
     """Realiza una búsqueda en Elasticsearch usando búsqueda semántica"""
     query_vector = get_query_embedding(query)
     
     if query_vector is None:
-        print("❌ No se pudo obtener embedding de la consulta")
+        print("No se pudo obtener embedding de la consulta")
         return
 
     # Consulta de Elasticsearch con búsqueda de similitud (cosine similarity)
@@ -41,9 +41,9 @@ def search(query, index_name="documents", top_k=5):
 
     print("\n🔍 Resultados de la búsqueda:")
     for hit in results["hits"]["hits"]:
-        print(f"📄 Documento: {hit['_source']['filename']} (Score: {hit['_score']:.4f})")
-        print(f"📝 Extracto: {hit['_source']['content'][:300]}...\n")
+        print(f"Documento: {hit['_source']['filename']} (Score: {hit['_score']:.4f})")
+        print(f"Extracto: {hit['_source']['content'][:300]}...\n")
 
-# Búsqueda de ejemplo
-query = "becas universitarias"
-search(query)
+if __name__ == "__main__":
+    query = "becas universitarias"
+    search(query)
