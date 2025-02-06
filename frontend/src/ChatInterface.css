@@ -137,14 +137,17 @@ body {
   position: absolute;
   top: 20px;
   left: 20px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #b0b0b0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .subtitle {
-  font-size: 14px;
+  font-size: 0.8rem;
   color: #4898ceb7;
-  margin-top: 5px;
+  margin-top: -8px;
 }
 
 .chat-interface {

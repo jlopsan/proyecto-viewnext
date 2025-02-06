@@ -176,10 +176,21 @@ export default function ChatInterface() {
 
   return (
     <div className="chat-container">
-      <header className="header">
+      <header className="header" style={{ display: 'flex', alignItems: 'center', fontSize: '1.5rem', gap: '10px' }}>
+      <img 
+        src="/favicon.png" 
+        alt="AsesorIA Logo" 
+        style={{ 
+          width: '50px', 
+          height: '50px', 
+          objectFit: 'contain' 
+        }} 
+      />
+      <div>
         AsesorIA
-        <div className="subtitle">Proyecto ViewNext</div>
-      </header>
+        <div className="subtitle" style={{ fontSize: '1rem' }}>Proyecto ViewNext</div>
+      </div>
+    </header>
 
       <button 
         ref={buttonRef}
