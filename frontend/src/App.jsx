@@ -6,6 +6,8 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showFaq, setShowFaq] = useState(true);
+  const [showNewChatButton, setShowNewChatButton] = useState(false);// Nuevo estado
+
 
   const handleQuery = async () => {
     // Si la pregunta está vacía o si el sistema está cargando, no hace nada
@@ -18,6 +20,9 @@ export default function ChatInterface() {
 
     // Ocultar el recuadro de preguntas frecuentes cuando el usuario haga una consulta
     setShowFaq(false);
+    // Mostrar el botón después de la primera interacción
+    setShowNewChatButton(true); 
+
 
     try {
       // Enviar la pregunta al servidor y esperar la respuesta
@@ -50,10 +55,19 @@ export default function ChatInterface() {
     }
   };
 
+  const handleNewChat = () => {
+    setMessages([]);
+    setShowNewChatButton(false);
+    setShowFaq(true);
+  };
+
   return (
     
     <div className="chat-container">
-      <header className="header">Asistente para Trámites Administrativos</header>
+      <header className="header">
+        Asistente para Trámites Administrativos AsesorIA
+        <div className="subtitle">Proyecto ViewNext</div>
+        </header>
       <div className="chat-interface">
       {messages.length === 0 && <h1 className="title">¿Cómo puedo ayudarte?</h1>}
 
@@ -94,6 +108,10 @@ export default function ChatInterface() {
         </div>
       </div>
 
+      {showNewChatButton && (
+        <button className="new-chat-button" onClick={handleNewChat}>Nuevo Chat</button>
+      )}
+
       {/* Recuadro de las preguntas frecuentes */}
       {showFaq && (
           <div className="faq-box">
@@ -107,7 +125,7 @@ export default function ChatInterface() {
         )}
       
     </div>
-    <footer className="footer">Proyecto ViewNext</footer>
+    <footer className="footer"></footer>
     </div>
   );
 }
