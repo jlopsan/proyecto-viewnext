@@ -3,11 +3,15 @@ import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import formataddr
+import markdown
 
 def enviar_correo(destinatario, asunto, cuerpo):
     try:
         # Limpiar el prefijo L3## del cuerpo del mensaje
         cuerpo_limpio = cuerpo.replace('L3##', '').strip()
+
+        # Convertir el cuerpo de Markdown a HTML
+        cuerpo_html = markdown.markdown(cuerpo_limpio)
 
         # Configuración del servidor SMTP
         servidor_smtp = os.getenv('SMTP_SERVER')
@@ -19,13 +23,14 @@ def enviar_correo(destinatario, asunto, cuerpo):
             raise ValueError("Faltan configuraciones de correo en las variables de entorno.")
 
         # Crear el mensaje
-        mensaje = MIMEMultipart()
+        mensaje = MIMEMultipart("alternative")
         mensaje['From'] = formataddr(("AsesorIA", usuario_smtp))
         mensaje['To'] = destinatario
         mensaje['Subject'] = asunto
 
-        # Adjuntar el cuerpo del mensaje limpio
-        mensaje.attach(MIMEText(cuerpo_limpio, 'plain'))
+        # Adjuntar el cuerpo del mensaje en formato texto plano y HTML
+        mensaje.attach(MIMEText(cuerpo_limpio, 'plain'))  # Cuerpo en texto plano
+        mensaje.attach(MIMEText(cuerpo_html, 'html'))     # Cuerpo en HTML
 
         # Conectar al servidor SMTP y enviar el correo
         with smtplib.SMTP(servidor_smtp, puerto_smtp) as servidor:
