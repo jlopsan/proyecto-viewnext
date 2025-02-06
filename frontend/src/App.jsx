@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./ChatInterface.css"; // Importar los estilos externos
 import ReactMarkdown from "react-markdown";
 
@@ -9,6 +9,46 @@ export default function ChatInterface() {
   const [showFaq, setShowFaq] = useState(true);
   const [showNewChatButton, setShowNewChatButton] = useState(false);
   const [uuid, setUuid] = useState(null);  // Agregar estado para el UUID
+  // Nuevos estados para el perfil
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [profileTitle, setProfileTitle] = useState("");
+  const [profileDescription, setProfileDescription] = useState("");
+
+    // Referencia para el dropdown
+    const dropdownRef = useRef(null);
+    const buttonRef = useRef(null);
+  
+  // Función para guardar el perfil
+  const handleSaveProfile = () => {
+    // Añadir funcionalidad para el backend
+    console.log('Profile saved:', { profileTitle, profileDescription });
+    setIsProfileOpen(false);
+  };
+
+  // Función para manejar la tecla Enter
+  const handleProfileKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSaveProfile();
+    }
+  };
+
+  // Efecto para manejar clics fuera del dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isProfileOpen && 
+          dropdownRef.current && 
+          !dropdownRef.current.contains(event.target) &&
+          !buttonRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isProfileOpen]);
 
   const handleQuery = async () => {
     if (!question.trim() || isLoading) return;
@@ -103,6 +143,58 @@ export default function ChatInterface() {
         AsesorIA
         <div className="subtitle">Proyecto ViewNext</div>
       </header>
+
+      <button 
+        ref={buttonRef}
+        className="profile-button"
+        onClick={() => setIsProfileOpen(!isProfileOpen)}
+      >
+        Perfil
+      </button>
+
+      {isProfileOpen && (
+        <div className="profile-dropdown" ref={dropdownRef}>
+          <div>
+            <label className="profile-label">
+              Título
+            </label>
+            <input
+              type="text"
+              value={profileTitle}
+              onChange={(e) => setProfileTitle(e.target.value)}
+              onKeyDown={handleProfileKeyDown}
+              className="profile-input"
+              placeholder="Introduce un título"
+            />
+          </div>
+          <div>
+            <label className="profile-label">
+              Descripción
+            </label>
+            <textarea
+              value={profileDescription}
+              onChange={(e) => setProfileDescription(e.target.value)}
+              onKeyDown={handleProfileKeyDown}
+              className="profile-textarea"
+              placeholder="Describe tu perfil"
+            />
+          </div>
+          <div className="profile-buttons">
+            <button 
+              onClick={() => setIsProfileOpen(false)}
+              className="profile-button-cancel"
+            >
+              Cancelar
+            </button>
+            <button 
+              onClick={handleSaveProfile}
+              className="profile-button-save"
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="chat-interface">
         {messages.length === 0 && <h1 className="title">¿Cómo puedo ayudarte?</h1>}
