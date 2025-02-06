@@ -52,22 +52,22 @@ export default function ChatInterface() {
 
   const handleQuery = async () => {
     if (!question.trim() || isLoading) return;
-  
+
     setMessages(prev => [...prev, { text: question, isUser: true }]);
     setIsLoading(true);
     setQuestion("");
-  
+
     setShowFaq(false);
     setShowNewChatButton(true);
-  
+
     try {
       const requestBody = { pregunta: question };
-      
+
       // Solo agregar el UUID si existe
       if (uuid) {
         requestBody.uuid = uuid;
       }
-  
+
       const res = await fetch("http://localhost:8000/agente", {
         method: "POST",
         headers: {
@@ -75,16 +75,16 @@ export default function ChatInterface() {
         },
         body: JSON.stringify(requestBody),  // Enviar el cuerpo con pregunta y uuid si existe
       });
-  
+
       const data = await res.json();
       const cleanedAnswer = data.respuesta ? data.respuesta.replace(/^L3##/i, '').trim() : "No se encontró respuesta.";
-  
+
       setMessages(prev => [...prev, { text: cleanedAnswer || "No se encontró respuesta.", isUser: false }]);
-  
+
       if (!uuid) {
         setUuid(data.uuid);
       }
-  
+
     } catch (error) {
       console.error("Error al enviar la pregunta:", error);
       setMessages(prev => [...prev, { text: "Error al conectar con el servidor.", isUser: false, isError: true }]);
@@ -92,7 +92,6 @@ export default function ChatInterface() {
       setIsLoading(false);
     }
   };
-  
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -100,42 +99,18 @@ export default function ChatInterface() {
     }
   };
 
-
   // Función para iniciar un nuevo chat
-  const handleNewChat = async () => {
-
-    try {
-      // Notificar al backend que se quiere iniciar un nuevo chat
-      const response = await fetch('/api/new-chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Si se necesita enviar algun dato adicional se hace aqui
-        body: JSON.stringify({ action: 'start_new_chat' }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error al notificar al backend sobre el nuevo chat');
-      }
-  
-      // Limpiar los campos en el frontend
-      setMessages([]); // Limpia los mensajes actuales
-      setShowNewChatButton(false);
-      setShowFaq(true);
-      console.log('Nuevo chat iniciado: Campos limpiados y backend notificado.');
-    } catch (error) {
-      /*
-      // A modo de prueba
-      setMessages([]); // Limpia los mensajes actuales
-      setShowNewChatButton(false);
-      setShowFaq(true);
+  const handleNewChat = () => {
+    // Limpiar los campos en el frontend
+    setMessages([]); // Limpia los mensajes actuales
+    setQuestion(""); // Limpia la pregunta actual
     setUuid(null); // Limpiar el UUID cuando se empieza un nuevo chat
-      */
-      console.error('Error al iniciar un nuevo chat:', error);
-    }
-  };
+    setShowNewChatButton(false); // Ocultar el botón de nuevo chat
+    setShowFaq(true); // Mostrar las preguntas frecuentes
+    setIsLoading(false); // Asegurarse de que no haya carga en curso
 
+    console.log('Nuevo chat iniciado: Campos limpiados.');
+  };
 
   return (
     <div className="chat-container">
@@ -255,7 +230,7 @@ export default function ChatInterface() {
             </ul>
           </div>
         )}
-        
+
       </div>
       <footer className="footer"></footer>
     </div>
