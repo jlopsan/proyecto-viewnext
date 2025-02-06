@@ -58,55 +58,61 @@ export default function ChatInterface() {
   // Función para enviar la pregunta al agente
   const handleQuery = useCallback(async () => {
     if (!question.trim() || isLoading) return;
-
+  
+    // Agregar mensaje visible al chat (solo la pregunta del usuario)
     setMessages(prev => [...prev, { text: question, isUser: true }]);
     setIsLoading(true);
     setQuestion("");
-
+  
     setShowFaq(false);
     setShowNewChatButton(true);
-
+  
     try {
+      // Preparar el prompt que se enviará al backend
       const requestBody = { pregunta: question };
-
+  
       // Solo agregar el UUID si existe
       if (uuid) {
         requestBody.uuid = uuid;
       }
-
+  
       // Solo incluir la descripción del perfil si aún no se ha enviado
       if (profileDescription && !hasProfileSent) {
         requestBody.descripcion_perfil = profileDescription;
         setHasProfileSent(true); // Marcar que ya se envió la descripción
-        console.log('Perfil enviado:', profileDescription);
       }
-
+  
+      // Console log para verificar el prompt
+      console.log('Prompt enviado al backend:', requestBody);
+  
       const res = await fetch("http://localhost:8000/agente", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestBody),  // Enviar el cuerpo con pregunta, perfil y uuid si existe
+        body: JSON.stringify(requestBody), // Enviar pregunta, perfil y UUID si aplica
       });
-
+  
       const data = await res.json();
       const cleanedAnswer = data.respuesta ? data.respuesta.replace(/^L3##/i, '').trim() : "No se encontró respuesta.";
-
+  
+      // Agregar respuesta del asistente al chat
       setMessages(prev => [...prev, { text: cleanedAnswer || "No se encontró respuesta.", isUser: false }]);
-
+  
       if (!uuid) {
-        setUuid(data.uuid);
+        setUuid(data.uuid); // Guardar UUID si no existe
       }
-
+  
     } catch (error) {
       console.error("Error al enviar la pregunta:", error);
-      // Si no se envia la pregunta, la descripcion vuelve a estar disponible
+      // Restablecer para permitir reintento si falla
       setHasProfileSent(false);
       setMessages(prev => [...prev, { text: "Error al conectar con el servidor.", isUser: false, isError: true }]);
     } finally {
       setIsLoading(false);
     }
-  }, [question, uuid, isLoading, profileDescription, hasProfileSent]); // Dependencias de handleQuery
+  }, [question, uuid, isLoading, profileDescription, hasProfileSent]); // Dependencias
+  
 
 
   // Para enviar consulta al presionar Enter
