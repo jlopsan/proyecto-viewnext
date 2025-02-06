@@ -76,7 +76,7 @@ export default function ChatInterface() {
 
       // Solo incluir la descripción del perfil si aún no se ha enviado
       if (profileDescription && !hasProfileSent) {
-        requestBody.descripcion_perfil = profileDescription;
+        requestBody.perfil = profileDescription;
         setHasProfileSent(true); // Marcar que ya se envió la descripción
         console.log('Perfil enviado:', profileDescription);
       }
