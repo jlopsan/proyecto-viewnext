@@ -60,12 +60,42 @@ export default function ChatInterface() {
     }
   };
 
-  const handleNewChat = () => {
-    setMessages([]);
-    setShowNewChatButton(false);
-    setShowFaq(true);
+
+  // Función para iniciar un nuevo chat
+  const handleNewChat = async () => {
+
+    try {
+      // Notificar al backend que se quiere iniciar un nuevo chat
+      const response = await fetch('/api/new-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Si se necesita enviar algun dato adicional se hace aqui
+        body: JSON.stringify({ action: 'start_new_chat' }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error al notificar al backend sobre el nuevo chat');
+      }
+  
+      // Limpiar los campos en el frontend
+      setMessages([]); // Limpia los mensajes actuales
+      setShowNewChatButton(false);
+      setShowFaq(true);
+      console.log('Nuevo chat iniciado: Campos limpiados y backend notificado.');
+    } catch (error) {
+      /*
+      // A modo de prueba
+      setMessages([]); // Limpia los mensajes actuales
+      setShowNewChatButton(false);
+      setShowFaq(true);
     setUuid(null); // Limpiar el UUID cuando se empieza un nuevo chat
+      */
+      console.error('Error al iniciar un nuevo chat:', error);
+    }
   };
+
 
   return (
     <div className="chat-container">
