@@ -139,6 +139,7 @@ def ejecutar_consulta(pregunta, uuid):
         except Exception as e:
             return f"Error al procesar la solicitud: {e}"
     else:
+        pregunta = 'Eres un asistente virtual especializado en trámites burocráticos en España. '+pregunta
         return custom_llm._call(pregunta, uuid)
 
 if __name__ == "__main__":
