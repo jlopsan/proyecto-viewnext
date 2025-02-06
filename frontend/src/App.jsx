@@ -20,24 +20,22 @@ export default function ChatInterface() {
     setShowFaq(false);
 
     try {
-      /*
       // Enviar la pregunta al servidor y esperar la respuesta
-      const res = await fetch("http://localhost:8000/query", {
+      const res = await fetch("http://localhost:8000/agente", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // El cuerpo de la solicitud está en formato JSON
         },
-        body: JSON.stringify({ question }), // Enviar la pregunta del usuario en el cuerpo de la solicitud
+        body: JSON.stringify({ pregunta: question }), // Enviar la pregunta del usuario en el cuerpo de la solicitud
       });
-      */
 
       // Procesamos la respuesta del servidor
-      //const data = await res.json();
+      const data = await res.json();
 
       // Por ahora se simula la respuesta del servidor
-      const data = { answer: "¡Hola! Soy el asistente virtual" };
+      // const data = { answer: "¡Hola! Soy el asistente virtual" };
 
-      setMessages(prev => [...prev, { text: data.answer || "No se encontró respuesta.", isUser: false }]);
+      setMessages(prev => [...prev, { text: data.respuesta || "No se encontró respuesta.", isUser: false }]);
     } catch (error) {
       console.error("Error al enviar la pregunta:", error);
       setMessages(prev => [...prev, { text: "Error al conectar con el servidor.", isUser: false, isError: true }]);

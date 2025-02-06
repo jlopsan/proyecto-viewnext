@@ -1,5 +1,5 @@
 import requests
-from config import es, EMBEDDING_API_URL, headers
+from .config import es, EMBEDDING_API_URL, headers
 
 def get_query_embedding(query):
     """Obtiene el embedding del texto utilizando la API de NextAI."""

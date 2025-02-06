@@ -3,7 +3,7 @@ import os
 import re
 import numpy as np
 import fitz  # pymupdf para leer PDFs
-from config import EMBEDDING_API_URL, es, headers
+from .config import EMBEDDING_API_URL, es, headers
 
 
 def create_index(index):
