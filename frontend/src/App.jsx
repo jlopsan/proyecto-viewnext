@@ -8,11 +8,14 @@ export default function ChatInterface() {
   const [isLoading, setIsLoading] = useState(false);
   const [showFaq, setShowFaq] = useState(true);
   const [showNewChatButton, setShowNewChatButton] = useState(false);
-  const [uuid, setUuid] = useState(null);  // Agregar estado para el UUID
+  // Agregar estado para el UUID
+  const [uuid, setUuid] = useState(null);  
   // Nuevos estados para el perfil
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [profileTitle, setProfileTitle] = useState("");
   const [profileDescription, setProfileDescription] = useState("");
+  // Estado para controlar si ya se envió el perfil
+  const [hasProfileSent, setHasProfileSent] = useState(false);
   // Referencia para el dropdown
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -22,7 +25,6 @@ export default function ChatInterface() {
   
   // Función para guardar el perfil
   const handleSaveProfile = () => {
-    // Añadir funcionalidad para el backend
     console.log('Profile saved:', { profileTitle, profileDescription });
     setIsProfileOpen(false);
   };
@@ -72,12 +74,19 @@ export default function ChatInterface() {
         requestBody.uuid = uuid;
       }
 
+      // Solo incluir la descripción del perfil si aún no se ha enviado
+      if (profileDescription && !hasProfileSent) {
+        requestBody.descripcion_perfil = profileDescription;
+        setHasProfileSent(true); // Marcar que ya se envió la descripción
+        console.log('Perfil enviado:', profileDescription);
+      }
+
       const res = await fetch("http://localhost:8000/agente", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(requestBody),  // Enviar el cuerpo con pregunta y uuid si existe
+        body: JSON.stringify(requestBody),  // Enviar el cuerpo con pregunta, perfil y uuid si existe
       });
 
       const data = await res.json();
@@ -91,11 +100,13 @@ export default function ChatInterface() {
 
     } catch (error) {
       console.error("Error al enviar la pregunta:", error);
+      // Si no se envia la pregunta, la descripcion vuelve a estar disponible
+      setHasProfileSent(false);
       setMessages(prev => [...prev, { text: "Error al conectar con el servidor.", isUser: false, isError: true }]);
     } finally {
       setIsLoading(false);
     }
-  }, [question, uuid, isLoading]); // Dependencias de handleQuery
+  }, [question, uuid, isLoading, profileDescription, hasProfileSent]); // Dependencias de handleQuery
 
 
   // Para enviar consulta al presionar Enter
@@ -116,6 +127,7 @@ export default function ChatInterface() {
     setIsLoading(false); // Asegurarse de que no haya carga en curso
     setIsFaqSelected(false); // Resetear el estado de la selección de FAQ
     setIsProfileOpen(false); // Cerrar el dropdown del perfil
+    setHasProfileSent(false); // Resetear el estado de envío del perfil
 
     // setProfileTitle(""); // Limpiar el título del perfil
     // setProfileDescription(""); // Limpiar la descripción del perfil
