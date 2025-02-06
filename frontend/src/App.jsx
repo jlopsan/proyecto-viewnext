@@ -98,7 +98,25 @@ export default function ChatInterface() {
   
       // Agregar respuesta del asistente al chat
       setMessages(prev => [...prev, { text: cleanedAnswer || "No se encontró respuesta.", isUser: false }]);
-  
+
+      try {
+        const consulta = {
+          "uuid" : data.uuid,
+          "consulta": requestBody.pregunta,
+          "respuesta": cleanedAnswer,
+          "fecha" : new Date()
+        };
+        const res = await fetch("http://localhost:8000/consulta", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(consulta),  // Enviar el cuerpo con pregunta y uuid para guardarlo en la BD
+      });
+    } catch (error) {
+      console.error("Error al guardar la consulta en la base de datos:", error);
+    }
+
       if (!uuid) {
         setUuid(data.uuid); // Guardar UUID si no existe
       }
