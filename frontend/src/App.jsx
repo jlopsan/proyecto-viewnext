@@ -13,10 +13,9 @@ export default function ChatInterface() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [profileTitle, setProfileTitle] = useState("");
   const [profileDescription, setProfileDescription] = useState("");
-
-    // Referencia para el dropdown
-    const dropdownRef = useRef(null);
-    const buttonRef = useRef(null);
+  // Referencia para el dropdown
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
   
   // Función para guardar el perfil
   const handleSaveProfile = () => {

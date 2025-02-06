@@ -55,6 +55,10 @@ body {
   background-color: #3d3c41;
   color: #ffffff;
   font-size: 0.9rem;
+  resize: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .profile-input:focus,
@@ -74,6 +78,10 @@ body {
   min-height: 100px;
   resize: vertical;
   font-size: 0.9rem;
+  resize: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .profile-label {
