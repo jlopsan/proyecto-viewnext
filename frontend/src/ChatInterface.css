@@ -79,6 +79,12 @@ body {
   
 }
 
+pre{
+  margin: 10px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
 /* Estilos para diferenciar mensajes del usuario y del asistente */
 
 @keyframes slideInFromRight {

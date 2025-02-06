@@ -22,7 +22,7 @@ async def ejecutar(request: Request, pregunta_request: PreguntaRequest):
             # Si no existe, generar uno nuevo
             if not hasattr(request.state, 'uuid'):
                 random_digits = ''.join(random.choices('0123456789', k=8))
-                request.state.uuid = f"EscuelasViewnextIA-JLS-{random_digits}"
+                request.state.uuid = f"EscuelasViewnextIA-AsesorIA-{random_digits}"
 
             # Obtener el UUID actual
             current_uuid = request.state.uuid
