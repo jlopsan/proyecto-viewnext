@@ -18,7 +18,7 @@ class CustomLLM(LLM):
     def _call(self, prompt, stop=None):
         data = {
             "model": "meta-llama/llama-3-1-70b-instruct",
-            "uuid": "EscuelasViewnextIA-JLS-12343299",
+            "uuid": "EscuelasViewnextIA-JLS-78643299",
             "message": {
                 "role": "user",
                 "content": prompt

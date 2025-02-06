@@ -30,8 +30,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost", "http://127.0.0.1", "http://localhost:5173"],  # Dominios permitidos
     allow_credentials=True,
-    allow_methods=["*"],  # Métodos HTTP permitidos
-    allow_headers=["*"],  # Encabezados HTTP permitidos
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Incluir routers de otros módulos

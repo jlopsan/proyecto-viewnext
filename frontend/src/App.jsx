@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ChatInterface.css"; // Importar los estilos externos
+import ReactMarkdown from "react-markdown";
 
 export default function ChatInterface() {
   const [question, setQuestion] = useState("");
@@ -32,10 +33,13 @@ export default function ChatInterface() {
       // Procesamos la respuesta del servidor
       const data = await res.json();
 
+      // Limpiar el prefijo "L3##" si está presente en la respuesta
+      const cleanedAnswer = data.respuesta ? data.respuesta.replace(/^L3##/i, '').trim() : "No se encontró respuesta.";
+
       // Por ahora se simula la respuesta del servidor
       // const data = { answer: "¡Hola! Soy el asistente virtual" };
 
-      setMessages(prev => [...prev, { text: data.respuesta || "No se encontró respuesta.", isUser: false }]);
+      setMessages(prev => [...prev, { text: cleanedAnswer || "No se encontró respuesta.", isUser: false }]);
     } catch (error) {
       console.error("Error al enviar la pregunta:", error);
       setMessages(prev => [...prev, { text: "Error al conectar con el servidor.", isUser: false, isError: true }]);
@@ -53,27 +57,31 @@ export default function ChatInterface() {
   return (
     
     <div className="chat-container">
-      <header className="header">Asistente para Trámites Administrativos</header>
+      <header className="header">AsesorIA</header>
       <div className="chat-interface">
       {messages.length === 0 && <h1 className="title">¿Cómo puedo ayudarte?</h1>}
 
       <div className="chat-box">
-        <div className="messages-area">
-          {messages.map((message, index) => (
-            <div 
-              key={index} 
-              className={`message ${message.isUser ? 'user-message' : 'assistant-message'} ${message.isError ? 'error-message' : ''}`}
-            >
-              {message.text}
-            </div>
-          ))}
-          {isLoading && (
-            <div className="loading-indicator">
-              <div className="loading-spinner"></div>
-              <span>Generando respuesta...</span>
-            </div>
-          )}
-        </div>
+      <div className="messages-area">
+        {messages.map((message, index) => (
+          <div 
+            key={index} 
+            className={`message ${message.isUser ? 'user-message' : 'assistant-message'} ${message.isError ? 'error-message' : ''}`}
+          >
+            {!message.isUser ? (
+              <ReactMarkdown>{message.text}</ReactMarkdown>
+            ) : (
+              message.text
+            )}
+          </div>
+        ))}
+        {isLoading && (
+          <div className="loading-indicator">
+            <div className="loading-spinner"></div>
+            <span>Generando respuesta...</span>
+          </div>
+        )}
+      </div>
 
         <div className="input-container">
           <textarea
