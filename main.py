@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from mongodb.routes import router as consultas_router
 from backend.routes import router as agente_router
 from contextlib import asynccontextmanager
+from fastapi.middleware.cors import CORSMiddleware
 
 # Cargar configuración desde el archivo .env
 config = dotenv_values(".env")
@@ -23,6 +24,15 @@ async def lifespan(app: FastAPI):
 
 # Asignar el ciclo de vida personalizado a la app
 app = FastAPI(lifespan=lifespan)
+
+# Configurar middleware para permitir CORS desde localhost
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost", "http://127.0.0.1", "http://localhost:5173"],  # Dominios permitidos
+    allow_credentials=True,
+    allow_methods=["*"],  # Métodos HTTP permitidos
+    allow_headers=["*"],  # Encabezados HTTP permitidos
+)
 
 # Incluir routers de otros módulos
 app.include_router(consultas_router, tags=["consultas"], prefix="/consulta")
