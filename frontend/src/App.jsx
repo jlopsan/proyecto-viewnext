@@ -97,7 +97,7 @@ export default function ChatInterface() {
     }
   }, [question, uuid, isLoading]); // Dependencias de handleQuery
 
-  
+
   // Para enviar consulta al presionar Enter
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -114,6 +114,11 @@ export default function ChatInterface() {
     setShowNewChatButton(false); // Ocultar el botón de nuevo chat
     setShowFaq(true); // Mostrar las preguntas frecuentes
     setIsLoading(false); // Asegurarse de que no haya carga en curso
+    setIsFaqSelected(false); // Resetear el estado de la selección de FAQ
+    setIsProfileOpen(false); // Cerrar el dropdown del perfil
+
+    // setProfileTitle(""); // Limpiar el título del perfil
+    // setProfileDescription(""); // Limpiar la descripción del perfil
 
     console.log('Nuevo chat iniciado: Campos limpiados.');
   };
