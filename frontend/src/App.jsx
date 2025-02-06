@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import "./ChatInterface.css"; // Importar los estilos externos
 import ReactMarkdown from "react-markdown";
 
@@ -16,6 +16,9 @@ export default function ChatInterface() {
   // Referencia para el dropdown
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
+  // Estado para seleccion de preguntas frecuentes
+  const [isFaqSelected, setIsFaqSelected] = useState(false);
+
   
   // Función para guardar el perfil
   const handleSaveProfile = () => {
@@ -24,7 +27,7 @@ export default function ChatInterface() {
     setIsProfileOpen(false);
   };
 
-  // Función para manejar la tecla Enter
+  // Función para manejar la tecla Enter en el perfil (para guardar)
   const handleProfileKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -49,7 +52,9 @@ export default function ChatInterface() {
     };
   }, [isProfileOpen]);
 
-  const handleQuery = async () => {
+
+  // Función para enviar la pregunta al agente
+  const handleQuery = useCallback(async () => {
     if (!question.trim() || isLoading) return;
 
     setMessages(prev => [...prev, { text: question, isUser: true }]);
@@ -90,8 +95,10 @@ export default function ChatInterface() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [question, uuid, isLoading]); // Dependencias de handleQuery
 
+  
+  // Para enviar consulta al presionar Enter
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleQuery();
@@ -109,6 +116,21 @@ export default function ChatInterface() {
     setIsLoading(false); // Asegurarse de que no haya carga en curso
 
     console.log('Nuevo chat iniciado: Campos limpiados.');
+  };
+
+  // Efecto para manejar el envío de preguntas frecuentes
+  useEffect(() => {
+    if (isFaqSelected && question.trim()) {
+      handleQuery(); // Llamamos a handleQuery cuando 'question' cambia por una FAQ
+      setIsFaqSelected(false); // Resetear el estado después de que se envíe la consulta
+    }
+  }, [question, isFaqSelected, handleQuery]); // Depende de 'question' y 'isFaqSelected'
+
+
+  // Función para manejar clics en las preguntas frecuentes
+  const handleFaqClick = (faqQuestion) => {
+    setQuestion(faqQuestion); // Actualizamos el estado de la pregunta
+    setIsFaqSelected(true); // Indicamos que la actualización proviene de la FAQ
   };
 
   return (
@@ -223,9 +245,15 @@ export default function ChatInterface() {
           <div className="faq-box">
             <h2 className="faq-title">Preguntas Frecuentes</h2>
             <ul className="faq-list">
-              <li><strong>¿Cómo puedo acceder a los trámites?</strong></li>
-              <li><strong>¿Cuáles son los horarios de atención?</strong></li>
-              <li><strong>¿Qué documentos necesito para realizar un trámite?</strong></li>
+              <li onClick={() => handleFaqClick("¿Cómo puedo acceder a los trámites?")}>
+                <strong>¿Cómo puedo acceder a los trámites?</strong>
+              </li>
+              <li onClick={() => handleFaqClick("¿Cuáles son los horarios de atención?")}>
+                <strong>¿Cuáles son los horarios de atención?</strong>
+              </li>
+              <li onClick={() => handleFaqClick("¿Qué documentos necesito para realizar un trámite?")}>
+                <strong>¿Qué documentos necesito para realizar un trámite?</strong>
+              </li>
             </ul>
           </div>
         )}

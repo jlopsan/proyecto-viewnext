@@ -362,6 +362,15 @@ body {
 .faq-list li {
   margin-bottom: 10px;
   font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.faq-list li:hover {
+  color: #4e98e7;
+  background-color: #3d3c41;
 }
 
 .new-chat-button {
