@@ -15,7 +15,6 @@ body {
   height: 100vh;
   margin: 0;
   overflow-y: hidden; /* Evita el scroll general del cuerpo */
-  width: 100%;
 }
 
 .chat-container {
@@ -26,8 +25,6 @@ body {
   width: 500px;
   max-width: 500px; /* Limita el ancho máximo */
   padding: 20px;
-  flex-grow: 1;
-  height: 100%;
 }
 
 .header {
@@ -127,7 +124,44 @@ body {
   max-width: 70%;
   word-wrap: break-word;
   animation: slideInFromLeft 0.5s ease-out; /* Aplica la animación */
+}
 
+/* Añadir estos estilos para las listas en los mensajes */
+.message ul {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  list-style-position: inside;
+}
+.message ol {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-left: 0; 
+  list-style-position: inside;
+}
+
+.message li {
+  margin-bottom: 5px; /* Espacio entre los elementos de la lista */
+  font-size: 1rem; /* Tamaño de fuente de los elementos de la lista */
+}
+
+/* Añadir estos estilos para las listas en los mensajes */
+.message ul {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  list-style-position: inside;
+}
+.message ol {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-left: 0; 
+  list-style-position: inside;
+}
+
+.message li {
+  margin-bottom: 5px; /* Espacio entre los elementos de la lista */
+  font-size: 1rem; /* Tamaño de fuente de los elementos de la lista */
 }
 
 /* Indicador de carga */
@@ -248,6 +282,8 @@ body {
 
 
 .footer {
+  position: absolute;
+  bottom: 10px;
   font-size: 0.9rem;
   color: #b0b0b0;
   width: 100%;
