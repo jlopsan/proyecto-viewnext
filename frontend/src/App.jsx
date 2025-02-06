@@ -286,14 +286,14 @@ export default function ChatInterface() {
           <div className="faq-box">
             <h2 className="faq-title">Preguntas Frecuentes</h2>
             <ul className="faq-list">
-              <li onClick={() => handleFaqClick("¿Cómo puedo acceder a los trámites?")}>
-                <strong>¿Cómo puedo acceder a los trámites?</strong>
+              <li onClick={() => handleFaqClick("¿Cuáles son los requisitos para solicitar una beca universitaria?")}>
+                <strong> ¿Cuáles son los requisitos para solicitar una beca universitaria?</strong>
               </li>
-              <li onClick={() => handleFaqClick("¿Cuáles son los horarios de atención?")}>
-                <strong>¿Cuáles son los horarios de atención?</strong>
+              <li onClick={() => handleFaqClick("¿Cómo puedo calcular cuánto me corresponde de prestación por desempleo?")}>
+                <strong>¿Cómo puedo calcular cuánto me corresponde de prestación por desempleo?</strong>
               </li>
-              <li onClick={() => handleFaqClick("¿Qué documentos necesito para realizar un trámite?")}>
-                <strong>¿Qué documentos necesito para realizar un trámite?</strong>
+              <li onClick={() => handleFaqClick("¿Qué documentos necesito para hacer la declaración de la renta?")}>
+                <strong>¿Qué documentos necesito para hacer la declaración de la renta?</strong>
               </li>
             </ul>
           </div>
