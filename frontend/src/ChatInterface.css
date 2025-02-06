@@ -17,6 +17,112 @@ body {
   overflow-y: hidden; /* Evita el scroll general del cuerpo */
 }
 
+.profile-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #4e98e775;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.profile-button:hover {
+  background-color: #0056b3;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background-color: #2b2b2f;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  z-index: 1000;
+}
+
+.profile-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #3d3c41;
+  color: #ffffff;
+  font-size: 0.9rem;
+  resize: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.profile-input:focus,
+.profile-textarea:focus {
+  outline: 1px solid #4e98e775;
+}
+
+.profile-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #3d3c41;
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  min-height: 100px;
+  resize: vertical;
+  font-size: 0.9rem;
+  resize: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.profile-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #b0b0b0;
+  font-size: 0.9rem;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.profile-button-cancel {
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  background-color: #3d3c41;
+  color: #b0b0b0;
+}
+
+.profile-button-cancel:hover {
+  background-color: #4a4950;
+}
+
+.profile-button-save {
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  background-color: #4e98e775;
+  color: white;
+}
+
+.profile-button-save:hover {
+  background-color: #0056b3;
+}
+
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -262,6 +368,15 @@ pre{
 .faq-list li {
   margin-bottom: 10px;
   font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.faq-list li:hover {
+  color: #4e98e7;
+  background-color: #3d3c41;
 }
 
 .new-chat-button {

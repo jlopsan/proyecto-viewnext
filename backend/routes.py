@@ -9,6 +9,7 @@ router = APIRouter()
 # Modelo para validar la entrada
 class PreguntaRequest(BaseModel):
     pregunta: str
+    descripcion_perfil: str = None  # La descripción del perfil también es opcional
     uuid: str = None  # UUID es opcional en la solicitud
 
 # Endpoint para procesar consultas
@@ -27,8 +28,16 @@ async def ejecutar(request: Request, pregunta_request: PreguntaRequest):
             # Obtener el UUID actual
             current_uuid = request.state.uuid
 
-        # Ejecutar la consulta con la pregunta proporcionada y pasar el UUID
-        respuesta_completa = ejecutar_consulta(pregunta_request.pregunta, current_uuid)
+        # Combinar la pregunta con la descripción del perfil si está disponible
+        prompt_completo = pregunta_request.pregunta
+        if pregunta_request.descripcion_perfil:
+            prompt_completo = f"{pregunta_request.descripcion_perfil}\n\n{pregunta_request.pregunta}"
+
+        # Console log para debug
+        print(f"Prompt combinado: {prompt_completo}")
+
+        # Ejecutar la consulta con el prompt combinado y pasar el UUID
+        respuesta_completa = ejecutar_consulta(prompt_completo, current_uuid)
 
         return {"respuesta": respuesta_completa, "uuid": current_uuid}
 
