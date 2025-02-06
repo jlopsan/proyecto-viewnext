@@ -15,10 +15,10 @@ from Elasticsearch.Consulta_RAG import search
 load_dotenv()
 
 class CustomLLM(LLM):
-    def _call(self, prompt, stop=None):
+    def _call(self, prompt, uuid):
         data = {
             "model": "meta-llama/llama-3-1-70b-instruct",
-            "uuid": "EscuelasViewnextIA-JLS-12343299",
+            "uuid": uuid, 
             "message": {
                 "role": "user",
                 "content": prompt
@@ -123,13 +123,13 @@ def extraer_correo(query):
     coincidencias = re.findall(patron_correo, query)
     return coincidencias[0] if coincidencias else None
 
-def ejecutar_consulta(pregunta):
+def ejecutar_consulta(pregunta, uuid):
     custom_llm = CustomLLM()
     correo_extraido = extraer_correo(pregunta)
     
     if correo_extraido:
         pregunta_limpia = re.sub(r"(envíamelo|mándalo|envía la respuesta) (a \S+@\S+\.\S+|por correo|a mi correo|a mi email)", "", pregunta, flags=re.IGNORECASE).strip()
-        respuesta = custom_llm._call(pregunta_limpia)
+        respuesta = custom_llm._call(pregunta_limpia, uuid)
         
         try:
             enviar_correo(correo_extraido, pregunta_limpia, respuesta)
@@ -137,7 +137,7 @@ def ejecutar_consulta(pregunta):
         except Exception as e:
             return f"Error al procesar la solicitud: {e}"
     else:
-        return custom_llm._call(pregunta)
+        return custom_llm._call(pregunta, uuid)
 
 if __name__ == "__main__":
     pregunta = "Como se llama la beca de fp? Envia un correo con la información a juanloperasanchez@gmail.com"

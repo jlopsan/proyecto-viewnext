@@ -2,3 +2,4 @@
 /backend/venv
 /Elasticsearch/archivos
 __pycache__
+*.pyc

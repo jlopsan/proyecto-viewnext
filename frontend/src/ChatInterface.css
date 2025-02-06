@@ -15,7 +15,6 @@ body {
   height: 100vh;
   margin: 0;
   overflow-y: hidden; /* Evita el scroll general del cuerpo */
-  width: 100%;
 }
 
 .chat-container {
@@ -26,16 +25,24 @@ body {
   width: 500px;
   max-width: 500px; /* Limita el ancho máximo */
   padding: 20px;
-  flex-grow: 1;
-  height: 100%;
 }
 
 .header {
   position: absolute;
   top: 20px;
   left: 20px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #b0b0b0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #4898ceb7;
+  margin-top: 5px;
+}
+
+.chat-interface {
+  margin-top: 120px;
 }
 
 .title {
@@ -48,7 +55,7 @@ body {
 }
 
 .chat-box {
-  width: 800px;
+  width: 900px;
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -63,6 +70,7 @@ body {
 .messages-area {
   flex: 1;
   overflow-y: auto; /* Habilita el scroll vertical */
+  overflow-x: hidden;
   max-height: 100%; /* Ocupa todo el espacio disponible */
   padding: 10px;
   display: flex;
@@ -72,6 +80,18 @@ body {
 }
 
 /* Estilos para diferenciar mensajes del usuario y del asistente */
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .user-message {
   align-self: flex-end;
   background-color: #4e6c88;
@@ -80,16 +100,68 @@ body {
   border-radius: 10px 10px 0 10px;
   max-width: 70%;
   word-wrap: break-word;
+  animation: slideInFromRight 0.5s ease-out; /* Animación para mensajes del usuario */
+
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .assistant-message {
   align-self: flex-start;
-  background-color: #3d3c41;
+  background-color: #3d668838;
   color: #cfd8e3;
   padding: 10px;
   border-radius: 10px 10px 10px 0;
   max-width: 70%;
   word-wrap: break-word;
+  animation: slideInFromLeft 0.5s ease-out; /* Aplica la animación */
+}
+
+/* Añadir estos estilos para las listas en los mensajes */
+.message ul {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  list-style-position: inside;
+}
+.message ol {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-left: 0; 
+  list-style-position: inside;
+}
+
+.message li {
+  margin-bottom: 5px; /* Espacio entre los elementos de la lista */
+  font-size: 1rem; /* Tamaño de fuente de los elementos de la lista */
+}
+
+/* Añadir estos estilos para las listas en los mensajes */
+.message ul {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  list-style-position: inside;
+}
+.message ol {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-left: 0; 
+  list-style-position: inside;
+}
+
+.message li {
+  margin-bottom: 5px; /* Espacio entre los elementos de la lista */
+  font-size: 1rem; /* Tamaño de fuente de los elementos de la lista */
 }
 
 /* Indicador de carga */
@@ -163,7 +235,7 @@ body {
 
 .faq-box {
   background-color: #2b2b2f; /* Fondo oscuro */
-  color: #fff; /* Texto blanco */
+  color: #a4c4d3;
   border-radius: 10px;
   padding: 20px;
   margin-top: 30px;
@@ -186,11 +258,37 @@ body {
   font-size: 1rem;
 }
 
+.new-chat-button {
+  background-color: #4e98e775;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 5px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.new-chat-button:hover {
+  background-color: #0056b3;
+}
+
 
 .footer {
+  position: absolute;
+  bottom: 10px;
   font-size: 0.9rem;
   color: #b0b0b0;
   width: 100%;
   text-align: center;  /* Centra el texto */
-  padding-top: 20px;  /* Espaciado superior */
+  padding: 10px 0;
+  margin-top: auto;  /* Espaciado superior */
+  margin-bottom: 10px;
 }
