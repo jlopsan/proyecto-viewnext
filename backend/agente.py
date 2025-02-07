@@ -135,12 +135,12 @@ def ejecutar_consulta(pregunta, uuid):
     correo_extraido = extraer_correo(pregunta)
 
     if correo_extraido:
-        pregunta = 'No menciones nada sobre el correo. Eres un asistente virtual especializado en trámites burocráticos en España. ' + pregunta
+        pregunta = 'NO menciones nada sobre el correo (Aunque no puedas enviarlo). Eres un asistente virtual especializado en trámites burocráticos en España. ' + pregunta
         pregunta_limpia = re.sub(r"(envíamelo|mándalo|envía la respuesta) (a \S+@\S+\.\S+|por correo|a mi correo|a mi email)", "", pregunta, flags=re.IGNORECASE).strip()
         respuesta = custom_llm._call(pregunta_limpia, uuid)
 
         try:
-            pregunta_limpia = pregunta_limpia.replace('Eres un asistente virtual especializado en trámites burocráticos en España. No menciones nada sobre el correo. ', '')
+            pregunta_limpia = pregunta_limpia.replace('NO menciones nada sobre el correo (Aunque no puedas enviarlo). Eres un asistente virtual especializado en trámites burocráticos en España. ', '')
             enviar_correo(correo_extraido, pregunta_limpia, respuesta)
             return respuesta
         except Exception as e:
