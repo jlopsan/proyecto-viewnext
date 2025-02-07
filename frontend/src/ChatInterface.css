@@ -256,11 +256,10 @@ pre{
 }
 
 .message li {
-  margin-bottom: 5px; /* Espacio entre los elementos de la lista */
-  font-size: 1rem; /* Tamaño de fuente de los elementos de la lista */
+  margin-bottom: 5px; 
+  font-size: 1rem; 
 }
 
-/* Añadir estos estilos para las listas en los mensajes */
 .message ul {
   margin-top: 10px;
   margin-bottom: 15px;
@@ -275,8 +274,8 @@ pre{
 }
 
 .message li {
-  margin-bottom: 5px; /* Espacio entre los elementos de la lista */
-  font-size: 1rem; /* Tamaño de fuente de los elementos de la lista */
+  margin-bottom: 5px;
+  font-size: 1rem; 
 }
 
 /* Indicador de carga */
@@ -323,11 +322,11 @@ pre{
   font-family: 'Arial', sans-serif;
   font-size: 1rem;
   outline: none;
-  min-height: 50px;  /* Altura mínima para mostrar múltiples líneas */
-  resize: none;  /* Evita que el usuario cambie el tamaño del campo */
+  min-height: 50px;  
+  resize: none;  
   overflow-y: auto;  /* Permite el scroll vertical si el contenido es demasiado largo */
-  white-space: pre-wrap;  /* Muestra los saltos de línea */
-  word-wrap: break-word;  /* Permite que las palabras largas se rompan */
+  white-space: pre-wrap;  
+  word-wrap: break-word; 
 }
 
 .input-field::placeholder {

@@ -1,4 +1,5 @@
 from elasticsearch import Elasticsearch
+import os
 
 # Conexión a Elasticsearch
 ES_HOST = "http://localhost:9200"
@@ -9,8 +10,8 @@ EMBEDDING_API_URL = "https://api-nextai-challenge.codingbuddy-4282826dce7d155229
 
 # Encabezados para la API
 headers = {
-        "user": "juanloperasanchez@escuelaviewnext.com",
+        "user": os.getenv('USER_EMAIL'),
         "origin": "EscuelasViewnextIA",
-        "X-API-Key": "jls-dev-Rjy9c1aPacqHLMrzOz607NEB5ifLB14f"
+        "X-API-Key": os.getenv('API_KEY'),
     }
 

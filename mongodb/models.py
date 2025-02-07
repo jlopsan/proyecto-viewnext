@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 from datetime import datetime
 
-#Clase Consulta para gestionar correctamente las consultas
+# Clase Consulta para gestionar correctamente las consultas
 class Consulta(BaseModel):
     uuid: str
     consulta: str = Field(...)
@@ -21,7 +21,7 @@ class Consulta(BaseModel):
             }
         }
 
-#Clase ConsultaUpdate para getionar las actualizaciones de las consultas
+# Clase ConsultaUpdate para getionar las actualizaciones de las consultas
 class ConsultaUpdate(BaseModel):
     consulta: Optional[str]
     respuesta: Optional[str]

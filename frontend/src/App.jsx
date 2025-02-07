@@ -14,9 +14,7 @@ export default function ChatInterface() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [profileTitle, setProfileTitle] = useState("");
   const [profileDescription, setProfileDescription] = useState("");
-  // Estado para controlar si ya se envió el perfil
   const [hasProfileSent, setHasProfileSent] = useState(false);
-  // Referencia para el dropdown
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
   // Estado para seleccion de preguntas frecuentes
@@ -111,14 +109,15 @@ export default function ChatInterface() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(consulta),  // Enviar el cuerpo con pregunta y uuid para guardarlo en la BD
+        body: JSON.stringify(consulta),
       });
     } catch (error) {
       console.error("Error al guardar la consulta en la base de datos:", error);
     }
 
       if (!uuid) {
-        setUuid(data.uuid); // Guardar UUID si no existe
+        // Guardar UUID si no existe
+        setUuid(data.uuid); 
       }
   
     } catch (error) {
@@ -129,7 +128,7 @@ export default function ChatInterface() {
     } finally {
       setIsLoading(false);
     }
-  }, [question, uuid, isLoading, profileDescription, hasProfileSent]); // Dependencias
+  }, [question, uuid, isLoading, profileDescription, hasProfileSent]); 
   
 
 
@@ -143,18 +142,15 @@ export default function ChatInterface() {
   // Función para iniciar un nuevo chat
   const handleNewChat = () => {
     // Limpiar los campos en el frontend
-    setMessages([]); // Limpia los mensajes actuales
-    setQuestion(""); // Limpia la pregunta actual
-    setUuid(null); // Limpiar el UUID cuando se empieza un nuevo chat
-    setShowNewChatButton(false); // Ocultar el botón de nuevo chat
-    setShowFaq(true); // Mostrar las preguntas frecuentes
-    setIsLoading(false); // Asegurarse de que no haya carga en curso
-    setIsFaqSelected(false); // Resetear el estado de la selección de FAQ
-    setIsProfileOpen(false); // Cerrar el dropdown del perfil
-    setHasProfileSent(false); // Resetear el estado de envío del perfil
-
-    // setProfileTitle(""); // Limpiar el título del perfil
-    // setProfileDescription(""); // Limpiar la descripción del perfil
+    setMessages([]); 
+    setQuestion("");
+    setUuid(null);
+    setShowNewChatButton(false); 
+    setShowFaq(true); 
+    setIsLoading(false); 
+    setIsFaqSelected(false); 
+    setIsProfileOpen(false); 
+    setHasProfileSent(false); 
 
     console.log('Nuevo chat iniciado: Campos limpiados.');
   };
@@ -162,16 +158,16 @@ export default function ChatInterface() {
   // Efecto para manejar el envío de preguntas frecuentes
   useEffect(() => {
     if (isFaqSelected && question.trim()) {
-      handleQuery(); // Llamamos a handleQuery cuando 'question' cambia por una FAQ
-      setIsFaqSelected(false); // Resetear el estado después de que se envíe la consulta
+      handleQuery(); 
+      setIsFaqSelected(false); 
     }
-  }, [question, isFaqSelected, handleQuery]); // Depende de 'question' y 'isFaqSelected'
+  }, [question, isFaqSelected, handleQuery]); 
 
 
   // Función para manejar clics en las preguntas frecuentes
   const handleFaqClick = (faqQuestion) => {
-    setQuestion(faqQuestion); // Actualizamos el estado de la pregunta
-    setIsFaqSelected(true); // Indicamos que la actualización proviene de la FAQ
+    setQuestion(faqQuestion); 
+    setIsFaqSelected(true); 
   };
 
   return (

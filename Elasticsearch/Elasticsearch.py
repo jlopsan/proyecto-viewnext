@@ -6,16 +6,14 @@ import fitz  # pymupdf para leer PDFs
 from .config import EMBEDDING_API_URL, es, headers
 
 
+# Crea un índice en Elasticsearch si no existe
 def create_index(index):
-    """Función para crear un índice en Elasticsearch."""
     index_name = index
-
     if not es.indices.exists(index=index_name):
         es.indices.create(index=index_name)
 
+# Vectoriza el texto utilizando la API de NextAI
 def vectorizar_texto(text, max_chars=150000):
-    """Función que utiliza la API de NextAI para vectorizar un texto, dividiéndolo si excede el límite de caracteres."""
-
     text = limpiar_texto(text)
     if not text:
         print("Error: El texto quedó vacío después de la limpieza")
@@ -24,9 +22,9 @@ def vectorizar_texto(text, max_chars=150000):
     # Si el texto es más corto que el máximo, procesarlo directamente
     if len(text) <= max_chars:
         body = {
-            "texts": [text],
+            "texts": [text], 
             "model": "LaBSE"
-        }
+            }
         try:
             response = requests.post(EMBEDDING_API_URL, headers=headers, json=body)
             if response.status_code == 200:
@@ -42,16 +40,11 @@ def vectorizar_texto(text, max_chars=150000):
     segments = []
     current_text = text
     while len(current_text) > max_chars:
-        # Buscar el último punto antes del límite
         split_index = current_text.rfind('.', 0, max_chars)
-        
         if split_index == -1:
-            # Si no hay punto, buscar el último espacio
             split_index = current_text.rfind(' ', 0, max_chars)
             if split_index == -1:
-                # Si no hay espacio, cortar en el límite
                 split_index = max_chars
-        
         segment = current_text[:split_index].strip()
         if segment:
             segments.append(segment)
@@ -62,7 +55,6 @@ def vectorizar_texto(text, max_chars=150000):
     
     print(f"Texto dividido en {len(segments)} segmentos")
     
-    # Vectorizar cada segmento
     vectors = []
     for i, segment in enumerate(segments, 1):
         print(f"\nProcesando segmento {i}/{len(segments)}")
@@ -75,9 +67,9 @@ def vectorizar_texto(text, max_chars=150000):
             continue
             
         body = {
-            "texts": [segment],
+            "texts": [segment], 
             "model": "LaBSE"
-        }
+            }
         
         try:
             response = requests.post(EMBEDDING_API_URL, headers=headers, json=body)
@@ -112,34 +104,25 @@ def vectorizar_texto(text, max_chars=150000):
     return np.mean(vectors, axis=0).tolist()
 
 
+# Limpia el texto de caracteres no deseados
 def limpiar_texto(texto):
-    """Función auxiliar para limpiar y formatear el texto."""
-    # Reemplazar múltiples espacios y saltos de línea con un solo espacio
     texto = re.sub(r'\s+', ' ', texto)
-    
-    # Eliminar caracteres no imprimibles excepto espacios normales
     texto = ''.join(char for char in texto if char.isprintable() or char == ' ')
-    
-    # Eliminar espacios al inicio y final
     texto = texto.strip()
-    
-    # Asegurarse de que el texto no esté vacío
     if not texto:
         return None
-        
     return texto
 
+# Extrae texto de un archivo PDF
 def extract_text_from_pdf(pdf_path):
-    """Función que lee un PDF y extrae el texto."""
     doc = fitz.open(pdf_path)
     text = ""
     for page in doc:
         text += page.get_text("text") + "\n"
     return text.strip()
 
+# Indexa un PDF en Elasticsearch
 def index_pdf(pdf_path, index_name="documents"):
-    """Función que indexa un PDF en Elasticsearch."""
-
     text = extract_text_from_pdf(pdf_path)
     print(f"Longitud del texto extraído: {len(text)} caracteres")
     
@@ -156,21 +139,21 @@ def index_pdf(pdf_path, index_name="documents"):
             "content": text,
             "vector": embedding 
         }
-        es.index(index=index_name, body=doc)  # Indexar en Elasticsearch
-        print(f"✅ {pdf_path} indexado correctamente")
+        es.index(index=index_name, body=doc)
+        print(f"{pdf_path} indexado correctamente")
     else:
         print(f"No se pudo indexar {pdf_path}")
 
+# Cierra la conexión con Elasticsearch
 def close_connection():
-    """Función para cerrar la conexión con Elasticsearch."""
     es.close()
     print("Conexión cerrada con Elasticsearch")
 
 if __name__ == "__main__":
-    indice = "textos_prueba"  
+    indice = "textos_prueba"
     create_index(indice)
 
-    pdf_folder = r"./archivos"  
+    pdf_folder = r"./archivos"
     for pdf_file in os.listdir(pdf_folder):
         print(f"Indexando {pdf_file}")
         if pdf_file.endswith(".pdf"):
